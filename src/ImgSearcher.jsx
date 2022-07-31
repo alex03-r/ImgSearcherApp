@@ -3,16 +3,15 @@ import './style.css'
 
 export const ImgSearcher = () => {
 
-
-
   const APY_KEY = 'd117mhkj6exY-z_CMSbgOx66rzvd_NPSjsoR6Yx9A6c';
-  const [images, setImages] = useState([])
-  const [removeAlert, setRemoveAlert] = useState(true)
-  const [searchImg, setSearchImg] = useState('')
+  const [images, setImages] = useState([]);
+  const [removeAlert, setRemoveAlert] = useState(true);
+  const [searchImg, setSearchImg] = useState('');
+  const [noPhothos, setnoPhothos] = useState(false);
 
   const ref = useRef("");
 
-  const url = `https://api.unsplash.com/search/photos?per_page=${12}&query=${searchImg}`;
+  const url = `https://api.unsplash.com/search/photos?per_page=${13}&query=${searchImg}`;
 
   const getAllImages = async () => {
 
@@ -23,17 +22,17 @@ export const ImgSearcher = () => {
       }
     })
 
-    const data = await response.json()
-    const { results } = data
+    const data = await response.json();
+    const { results } = data;
 
 
-    setImages(results)
+    setImages(results);
   }
 
   const handleSearch = (e) => {
 
     ref.current.removeAttribute("disabled");
-    setSearchImg(e.target.value)
+    setSearchImg(e.target.value);
 
   }
 
@@ -44,8 +43,13 @@ export const ImgSearcher = () => {
       return null;
     }
     setRemoveAlert(false);
-    getAllImages()
-    setSearchImg('')
+    getAllImages();
+    setSearchImg('');
+    if (images.length <= 0) {
+      setnoPhothos(true);
+    } else {
+      setnoPhothos(false);
+    }
 
   }
 
@@ -56,6 +60,7 @@ export const ImgSearcher = () => {
   useEffect(() => {
 
     ref.current.setAttribute('disabled', 'disabled');
+    getAllImages();
 
   }, [])
 
@@ -72,19 +77,17 @@ export const ImgSearcher = () => {
       </div>
       <div className='row mt-3'>
 
-        {searchImg === "" && images.length <= 0 || removeAlert ? <p className='alert alert-primary mt-5  text-center'>No phothos yet. Type a keword to search the kind of photos you want   </p> : null}
+        {(searchImg === "" && removeAlert) ? <p className='alert alert-primary mt-5  text-center'>No phothos yet. Type a keword to search the kind of photos you want   </p> : null}
 
+        {(noPhothos && images.length <= 0) ? <p className=' animate__animated animate__bounce alert alert-info mt-5  text-center'>Sorry no photos found</p> : null}
         {
           images.map(img => {
-            // data-tooltip={img.alt_description}
+
             return <img className='img animate__animated animate__bounce' onClick={() => handleImgClick(img.urls.raw)} src={img.urls.raw} alt={img.alt_description} />
           })
         }
-
       </div>
 
     </div>
-
-
   )
 }
