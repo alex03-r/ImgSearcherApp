@@ -10,14 +10,3 @@
     cursor: pointer;
 }
 
-
-
-
-.img:hover::after{
-
-    content: attr('hello');
-    position: absolute;
-    top: 50%;
-    background-color: brown;
-    color: black;
-}
