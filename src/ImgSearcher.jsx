@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { ImageItem } from './ImageItem';
-import './style.css'
+import React, {  useEffect, useRef, useState } from 'react'
+ import { ImageItem } from './ImageItem';
+import './style.css' 
+// const ImageItem = React.lazy(() => import('./ImageItem') )
+
 
 export const ImgSearcher = () => {
 
@@ -8,7 +10,7 @@ export const ImgSearcher = () => {
   const [images, setImages] = useState([]);
   const [removeAlert, setRemoveAlert] = useState(false);
   const [searchImg, setSearchImg] = useState('');
-  const [noPhothos, setnoPhothos] = useState(true);
+  // const [noPhothos, setnoPhothos] = useState(true);
 
   const buttonref = useRef("");
 
@@ -28,14 +30,12 @@ export const ImgSearcher = () => {
 
     setRemoveAlert(false);
     setImages(results);
+    console.log(results)
 
     // if (images.length <= 0) {
     //   setnoPhothos(true);
     // } 
     //   setnoPhothos(false);
-    
-
-    console.log(results)
   }
 
   const handleSearch = (e) => {
@@ -57,7 +57,6 @@ export const ImgSearcher = () => {
     getAllImages();
 
     setSearchImg('');
-
  
   }
 
@@ -72,16 +71,16 @@ export const ImgSearcher = () => {
  
   }, [])
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-    setnoPhothos( !noPhothos );
-    console.log('chek')
+  //   setnoPhothos( noPhothos => !noPhothos ); 
+  //   console.log(noPhothos)  
 
-  },[images])
+  // },[images])
 
 
   return (
-    <div className='d-column justify-content-center align-items-center'>
+    <div>
 
       <h1 className='text-center'>Searcher image App</h1>
         <div className='d-flex aling-items-center mt-3 ms-5'>
@@ -94,11 +93,11 @@ export const ImgSearcher = () => {
 
           { removeAlert ? <p className='alert alert-primary mt-5  text-center'>No phothos yet. Type a keword to search the kind of photos you want   </p> : null}
 
-          { images.length <= 0 && noPhothos  ? <p className=' animate__animated animate__bounce alert alert-info mt-5  text-center'>Sorry no photos found</p> : null}
+          {/* { images.length <= 0 && noPhothos  ? <p className=' animate__animated animate__bounce alert alert-info mt-5  text-center'>Sorry no photos found</p> : null} */}
             {
               images.map(img => {
               
-                return <ImageItem {...img} handleImgClick={ handleImgClick } />
+                return  <ImageItem {...img} handleImgClick={ handleImgClick } />
 
               })
             }
